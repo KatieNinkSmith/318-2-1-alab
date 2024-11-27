@@ -3,10 +3,19 @@ const app = express();
 const bodyParser = require("body-parser");
 const PORT = 3000;
 const vegetables = require("./data/vegetables.js");
+const jsxViewEngine = require("jsx-view-engine");
+const methodOverride = require("method-override");
+
+app.set("view engine", "jsx");
+app.set("views", "./views");
+app.engine("jsx", jsxViewEngine());
 
 // middleware imported
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
+
+app.use(methodOverride("_method"));
+app.use(express.static("public"));
 
 // middleware that we custom made
 // to log the incoming requests
@@ -28,7 +37,7 @@ app.get("/api/vegetables", (req, res) => {
 });
 // new
 app.get("/vegetables/new", (req, res) => {
-  res.render("fruits/New");
+  res.render("vegetables/New");
 });
 
 // delete
